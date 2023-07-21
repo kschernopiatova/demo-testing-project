@@ -1,14 +1,13 @@
-package web.pages.desktop;
+package web.components.desktop;
 
-import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import web.components.Menu;
-import web.pages.common.AmazonPageBase;
+import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import web.components.Menu;
 
-@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = AmazonPageBase.class)
-public class AmazonPage extends AmazonPageBase {
+public class Header extends AbstractUIObject {
 
     @FindBy(id = "nav-logo-sprites")
     private ExtendedWebElement logo;
@@ -31,27 +30,19 @@ public class AmazonPage extends AmazonPageBase {
     @FindBy(id = "hmenu-canvas")
     private Menu menu;
 
-    public AmazonPage(WebDriver driver) {
-        super(driver);
+    public Header(WebDriver driver, SearchContext searchContext) {
+        super(driver, searchContext);
     }
 
-    @Override
-    public boolean isAmazonPageOpened() {
-        return logo.isElementPresent();
-    }
-
-    @Override
     public void searchGoods(String searchText) {
         searchField.type(searchText);
         searchButton.click();
     }
 
-    @Override
     public void openCart() {
         cartButton.click();
     }
 
-    @Override
     public void openNavItem(String itemName) {
         navHamburger.click();
         menu.openMenuItem(itemName);
