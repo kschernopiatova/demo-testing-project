@@ -22,4 +22,8 @@ public abstract class HomePageBase extends AbstractPage {
     public boolean isUserLogined(String userName) {
         return header.isUserLogined(userName);
     }
+
+    public Header getHeader() {
+        return header;
+    }
 }

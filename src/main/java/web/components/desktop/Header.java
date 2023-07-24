@@ -1,14 +1,20 @@
 package web.components.desktop;
 
+import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import web.components.Menu;
+import web.pages.common.SearchResultsPageBase;
 
-public class Header extends AbstractUIObject {
+import java.util.List;
+import java.util.Random;
+
+public class Header extends AbstractUIObject implements ICustomTypePageFactory {
 
     @FindBy(id = "nav-logo-sprites")
     private ExtendedWebElement logo;
@@ -18,6 +24,9 @@ public class Header extends AbstractUIObject {
 
     @FindBy(id = "nav-search-submit-button")
     private ExtendedWebElement searchButton;
+
+    @FindBy(xpath = ".//div[@class='two-pane-results-container']//span")
+    private List<ExtendedWebElement> searchSuggestions;
 
     @FindBy(id = "nav-cart")
     private ExtendedWebElement cartButton;
@@ -41,6 +50,15 @@ public class Header extends AbstractUIObject {
     public void searchGoods(String searchText) {
         searchField.type(searchText);
         searchButton.click();
+    }
+
+    public SearchResultsPageBase openRandomSuggestedGoods() {
+        searchField.click();
+        By by = By.xpath("//div[@class='two-pane-results-container']//span");
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(by, 1), 5);
+        searchSuggestions.get(new Random().nextInt(searchSuggestions.size()))
+                .click();
+        return initPage(getDriver(), SearchResultsPageBase.class);
     }
 
     public void openCart() {
