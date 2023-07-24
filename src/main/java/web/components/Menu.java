@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Menu extends AbstractUIObject {
 
@@ -37,19 +38,21 @@ public class Menu extends AbstractUIObject {
         showAllMenuItems();
         mainMenuItems.stream()
                 .filter(item -> itemTitle.equals(item.getText()))
-                .findFirst().orElseThrow().click();
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Menu element " + itemTitle + " doesn't exist!")).click();
     }
 
     public void openSubMenuItem(String itemTitle) {
         subMenuItems.stream()
                 .filter(item -> itemTitle.equals(item.getText()))
-                .findFirst().orElseThrow().click();
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Sub menu element " + itemTitle + " doesn't exist!")).click();
     }
 
     public void goBackToMainMenu() {
         backToMenuButtons.stream()
                 .filter(item -> item.isVisible(5))
                 .findFirst()
-                .orElseThrow().click();
+                .orElseThrow(() -> new NoSuchElementException("Back to main menu button doesn't exist!")).click();
     }
 }
