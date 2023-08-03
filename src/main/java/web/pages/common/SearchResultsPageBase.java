@@ -9,9 +9,11 @@ import web.components.desktop.ProductCard;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class SearchResultsPageBase extends AbstractPage {
-    //div[@data-component-type='s-search-result']
+
     @FindBy(xpath = "//div[@data-component-type='s-search-result']")
     private List<ProductCard> foundProducts;
 
@@ -37,4 +39,10 @@ public class SearchResultsPageBase extends AbstractPage {
         return foundProducts;
     }
 
+    public ProductCard getRandomProductCard() {
+        List<ProductCard> allInfo =  foundProducts.stream()
+                .filter(ProductCard::isAllInfoPresent)
+                .collect(Collectors.toList());
+        return allInfo.get(new Random().nextInt(allInfo.size()));
+    }
 }
