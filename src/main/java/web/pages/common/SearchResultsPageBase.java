@@ -27,6 +27,9 @@ public class SearchResultsPageBase extends AbstractPage {
     @FindBy(id = "s-refinements")
     private FilterMenu filterMenu;
 
+    @FindBy(xpath = "//span[@class='a-list-item']/span[contains(@class,'text-bold')]")
+    private ExtendedWebElement productCategory;
+
     public SearchResultsPageBase(WebDriver driver) {
         super(driver);
     }
@@ -52,5 +55,9 @@ public class SearchResultsPageBase extends AbstractPage {
 
     public FilterMenu getFilterMenu() {
         return filterMenu;
+    }
+
+    public String getProductCategory() {
+        return productCategory.getText();
     }
 }

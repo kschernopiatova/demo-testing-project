@@ -52,7 +52,7 @@ public class Header extends AbstractUIObject implements ICustomTypePageFactory {
     @FindBy(id = "nav-link-accountList-nav-line-1")
     private ExtendedWebElement userSection;
 
-    @FindBy(id = "hmenu-canvas")
+    @FindBy(xpath = "//div[@id='hmenu-canvas']")
     private Menu menu;
 
     public Header(WebDriver driver, SearchContext searchContext) {

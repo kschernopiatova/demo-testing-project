@@ -1,37 +1,46 @@
 package web.components;
 
+import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import web.pages.common.SearchResultsPageBase;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
-public class Menu extends AbstractUIObject {
+public class Menu extends AbstractUIObject implements ICustomTypePageFactory {
 
     @FindBy(xpath = ".//ul[@data-menu-id='1']//a[@class='hmenu-item']/div | .//ul[@data-menu-id='1']//a[@class='hmenu-item' and text()]")
     private List<ExtendedWebElement> mainMenuItems;
 
-    @FindBy(xpath = ".//ul[@data-menu-id!='1']//a")
+    @FindBy(xpath = ".//ul[@data-menu-id!='1' and contains(@class,'hmenu-visible')]//a")
     private List<ExtendedWebElement> subMenuItems;
 
-    @FindBy(xpath = ".//div[text()='main menu']")
-    private List<ExtendedWebElement> backToMenuButtons;
+    @FindBy(xpath = ".//ul[contains(@class,'hmenu-visible')]//div[text()='main menu']/..")
+    private ExtendedWebElement backToMenuButton;
 
-    @FindBy(xpath = ".//div[text()='see all']")
+    @FindBy(xpath = "//div[text()='see all']")
     private List<ExtendedWebElement> seeAllButtons;
 
     @FindBy(xpath = ".//div[text()='see less']")
     private List<ExtendedWebElement> seeLessButtons;
+
+    @FindBy(xpath = ".//ul[contains(@class,'hmenu-visible')]//div[contains(@class,'hmenu-title')]")
+    private ExtendedWebElement menuTitle;
 
     public Menu(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
     public void showAllMenuItems() {
-        seeAllButtons.forEach(ExtendedWebElement::click);
+        seeAllButtons.stream()
+                .filter(ExtendedWebElement::isClickable)
+                .forEach(ExtendedWebElement::click);
     }
 
     public void openMenuItem(String itemTitle) {
@@ -42,17 +51,27 @@ public class Menu extends AbstractUIObject {
                 .orElseThrow(() -> new NoSuchElementException("Menu element " + itemTitle + " doesn't exist!")).click();
     }
 
-    public void openSubMenuItem(String itemTitle) {
+    public SearchResultsPageBase openSubMenuItem(String itemTitle) {
         subMenuItems.stream()
                 .filter(item -> itemTitle.equals(item.getText()))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Sub menu element " + itemTitle + " doesn't exist!")).click();
+                .orElseThrow(() -> new NoSuchElementException("Sub menu element " + itemTitle + " doesn't exist!")).clickByActions();
+        return initPage(getDriver(), SearchResultsPageBase.class);
     }
 
     public void goBackToMainMenu() {
-        backToMenuButtons.stream()
-                .filter(item -> item.isVisible(5))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Back to main menu button doesn't exist!")).click();
+        backToMenuButton.clickByActions();
+    }
+
+    public boolean isMenuTitlePresent(String title) {
+        waitUntil(ExpectedConditions.textToBe(menuTitle.getBy(), title), 5);
+        return menuTitle.isPresent();
+    }
+
+    public boolean isMenuItemsPresent() {
+        List<Boolean> presenceOfElements = mainMenuItems.stream()
+                .map(ExtendedWebElement::isElementPresent)
+                .collect(Collectors.toList());
+        return !presenceOfElements.contains(false);
     }
 }

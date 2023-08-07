@@ -29,6 +29,12 @@ public abstract class HomePageBase extends AbstractPage {
         header.chooseUSLocation("10003");
     }
 
+    public void open(boolean changeLoc) {
+        super.open();
+        if (changeLoc)
+            header.chooseUSLocation("10003");
+    }
+
     public Header getHeader() {
         return header;
     }
