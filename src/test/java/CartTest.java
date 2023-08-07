@@ -58,4 +58,17 @@ public class CartTest implements IAbstractTest {
         Assert.assertEquals(firstPrice + secondPrice, cartSideBar.getSubtotalAmount(),
                 "The price doesn't match the expected!");
     }
+
+    @Test
+    public void addAndDeleteProduct() {
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+        homePage.open();
+        SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
+        ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
+        productPage.addProductToCart();
+
+        CartSideBar cartSideBar = productPage.getCartSideBar();
+        cartSideBar.deleteProductFromCart();
+        Assert.assertEquals(cartSideBar.getSubtotalAmount(), 0.0, "The price isn't 0.00!");
+    }
 }

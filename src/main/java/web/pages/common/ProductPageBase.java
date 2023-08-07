@@ -4,6 +4,7 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import web.components.desktop.CartSideBar;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class ProductPageBase extends AbstractPage {
     @FindBy(id = "productTitle")
     private ExtendedWebElement productTitle;
 
-    @FindBy(xpath = "//span[contains(@class,'PriceToPay')]/span[contains(@class, 'a-offscreen')]")
+    @FindBy(xpath = "//div[@id='corePrice_feature_div']//span[@class='a-offscreen']")
     private ExtendedWebElement productPrice;
 
     @FindBy(xpath = "//div[@id='centerCol']//span[@id='acrPopover']//a/span")
@@ -70,8 +71,10 @@ public class ProductPageBase extends AbstractPage {
             choseRandomSize();
         }
         addToCartButton.click();
-        if (closeCartPopupButton.isPresent(3))
+        if (closeCartPopupButton.isPresent(3)){
+            waitUntil(ExpectedConditions.elementToBeClickable(closeCartPopupButton.getElement()), 3);
             closeCartPopupButton.click();
+        }
     }
 
     public boolean isCartSidebarPresent() {

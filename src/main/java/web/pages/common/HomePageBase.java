@@ -23,6 +23,12 @@ public abstract class HomePageBase extends AbstractPage {
         return header.isUserLogined(userName);
     }
 
+    @Override
+    public void open() {
+        super.open();
+        header.chooseUSLocation("10003");
+    }
+
     public Header getHeader() {
         return header;
     }
