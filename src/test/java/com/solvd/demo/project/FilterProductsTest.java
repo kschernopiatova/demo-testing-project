@@ -1,0 +1,64 @@
+package com.solvd.demo.project;
+
+import com.zebrunner.carina.core.IAbstractTest;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import com.solvd.demo.project.web.components.desktop.FilterMenu;
+import com.solvd.demo.project.web.components.desktop.ProductCard;
+import com.solvd.demo.project.web.pages.common.HomePageBase;
+import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FilterProductsTest implements IAbstractTest {
+
+    @Test
+    public void filterRatingTest() {
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+        homePage.open();
+        SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
+        FilterMenu filterMenu = searchResultsPage.getFilterMenu();
+        int ratingBound = 4;
+        filterMenu.chooseRatingFilter(ratingBound);
+        List<Double> ratings = searchResultsPage.getFoundProducts().stream()
+                .map(ProductCard::getRating)
+                .collect(Collectors.toList());
+        ratings.forEach(rating -> Assert.assertTrue(rating >= (double) ratingBound,
+                "The rating is lower than chosen one!"));
+    }
+
+    @Test
+    public void filterPriceTest() {
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+        homePage.open();
+        SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
+        FilterMenu filterMenu = searchResultsPage.getFilterMenu();
+        double lowPrice = 20.0;
+        double highPrice = 80.0;
+        filterMenu.setPriceLimits(lowPrice, highPrice);
+        List<Double> prices = searchResultsPage.getFoundProducts().stream()
+                .map(ProductCard::getPrice)
+                .collect(Collectors.toList());
+        prices.forEach(price -> Assert.assertTrue(price >= lowPrice,
+                "The price is lower of the low bound!"));
+        prices.forEach(price -> Assert.assertTrue(price <= highPrice,
+                "The price is higher of the high bound!"));
+    }
+
+    @Test
+    public void filterPriceAndroidTest() {
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+        homePage.open();
+        SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
+        FilterMenu filterMenu = searchResultsPage.getFilterMenu();
+        double lowPrice = 20.0;
+        Double lowLimit = filterMenu.setLowPriceLimit(lowPrice);
+        List<Double> prices = searchResultsPage.getFoundProducts().stream()
+                .map(ProductCard::getPrice)
+                .collect(Collectors.toList());
+        prices.forEach(price -> Assert.assertTrue(price >= lowLimit,
+                "The price is lower of the low bound!"));
+    }
+
+}
