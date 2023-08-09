@@ -5,6 +5,7 @@ import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import enums.SortingOption;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import web.components.desktop.FilterMenu;
 import web.components.desktop.ProductCard;
 
 import java.util.List;
@@ -22,6 +23,12 @@ public class SearchResultsPageBase extends AbstractPage {
 
     @FindBy(xpath = "//div[@id='a-popover-2']//a")
     private List<ExtendedWebElement> sortingOptions;
+
+    @FindBy(id = "s-refinements")
+    private FilterMenu filterMenu;
+
+    @FindBy(xpath = "//span[@class='a-list-item']/span[contains(@class,'text-bold')]")
+    private ExtendedWebElement productCategory;
 
     public SearchResultsPageBase(WebDriver driver) {
         super(driver);
@@ -44,5 +51,13 @@ public class SearchResultsPageBase extends AbstractPage {
                 .filter(ProductCard::isAllInfoPresent)
                 .collect(Collectors.toList());
         return allInfo.get(new Random().nextInt(allInfo.size()));
+    }
+
+    public FilterMenu getFilterMenu() {
+        return filterMenu;
+    }
+
+    public String getProductCategory() {
+        return productCategory.getText();
     }
 }

@@ -19,6 +19,18 @@ public class Header extends AbstractUIObject implements ICustomTypePageFactory {
     @FindBy(id = "nav-logo-sprites")
     private ExtendedWebElement logo;
 
+    @FindBy(id = "nav-global-location-popover-link")
+    private ExtendedWebElement deliveryLocation;
+
+    @FindBy(xpath = "//input[contains(@aria-label,'zip code')]")
+    private ExtendedWebElement zipCodeInput;
+
+    @FindBy(xpath = "//input[@class='a-button-input'][./following-sibling::span[text()='Apply']]")
+    private ExtendedWebElement applyButton;
+
+    @FindBy(xpath = "//div[@class='a-popover-footer']//input")
+    private ExtendedWebElement continueButton;
+
     @FindBy(id = "twotabsearchtextbox")
     private ExtendedWebElement searchField;
 
@@ -40,7 +52,7 @@ public class Header extends AbstractUIObject implements ICustomTypePageFactory {
     @FindBy(id = "nav-link-accountList-nav-line-1")
     private ExtendedWebElement userSection;
 
-    @FindBy(id = "hmenu-canvas")
+    @FindBy(xpath = "//div[@id='hmenu-canvas']")
     private Menu menu;
 
     public Header(WebDriver driver, SearchContext searchContext) {
@@ -50,6 +62,13 @@ public class Header extends AbstractUIObject implements ICustomTypePageFactory {
     public void searchGoods(String searchText) {
         searchField.type(searchText);
         searchButton.click();
+    }
+
+    public void chooseUSLocation(String zipCode){
+        deliveryLocation.click();
+        zipCodeInput.type(zipCode);
+        applyButton.click();
+        continueButton.click();
     }
 
     public SearchResultsPageBase openRandomSuggestedGoods() {
@@ -65,11 +84,6 @@ public class Header extends AbstractUIObject implements ICustomTypePageFactory {
         cartButton.click();
     }
 
-    public void openNavItem(String itemName) {
-        navHamburger.click();
-        menu.openMenuItem(itemName);
-    }
-
     public void openLoginPage() {
         navHamburger.click();
         waitUntil(ExpectedConditions.visibilityOf(signInField.getElement()), 5);
@@ -78,5 +92,10 @@ public class Header extends AbstractUIObject implements ICustomTypePageFactory {
 
     public boolean isUserLogined(String userName) {
         return userSection.getText().contains(userName);
+    }
+
+    public Menu getMenu() {
+        navHamburger.click();
+        return menu;
     }
 }
