@@ -7,6 +7,7 @@ import com.solvd.demo.project.web.components.desktop.FilterMenu;
 import com.solvd.demo.project.web.components.desktop.ProductCard;
 import com.solvd.demo.project.web.pages.common.HomePageBase;
 import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class FilterProductsTest implements IAbstractTest {
 
     @Test
     public void filterPriceTest() {
+        SoftAssert softAssert = new SoftAssert();
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
@@ -40,10 +42,11 @@ public class FilterProductsTest implements IAbstractTest {
         List<Double> prices = searchResultsPage.getFoundProducts().stream()
                 .map(ProductCard::getPrice)
                 .collect(Collectors.toList());
-        prices.forEach(price -> Assert.assertTrue(price >= lowPrice,
+        prices.forEach(price -> softAssert.assertTrue(price >= lowPrice,
                 "The price is lower of the low bound!"));
-        prices.forEach(price -> Assert.assertTrue(price <= highPrice,
+        prices.forEach(price -> softAssert.assertTrue(price <= highPrice,
                 "The price is higher of the high bound!"));
+        softAssert.assertAll();
     }
 
     @Test

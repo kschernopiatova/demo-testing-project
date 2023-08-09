@@ -30,6 +30,9 @@ public class ProductPage extends ProductPageBase {
     @FindBy(xpath = "//div[@class='sparkle-close']")
     private ExtendedWebElement closeAlertButton;
 
+    @FindBy(id = "NATC_MWEB_FULL_PAGE_CONF_MSG_SUCCESS")
+    private ExtendedWebElement addedSuccessfullyTitle;
+
     @FindBy(xpath = "//span[text()='DONE']")
     private ExtendedWebElement doneButton;
 
@@ -71,6 +74,6 @@ public class ProductPage extends ProductPageBase {
 
     @Override
     public boolean isCartSidebarPresent() {
-        return cartPopup.isPresent();
+        return cartPopup.isPresent() || addedSuccessfullyTitle.isPresent();
     }
 }
