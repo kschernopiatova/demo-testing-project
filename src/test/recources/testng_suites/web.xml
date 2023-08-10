@@ -1,0 +1,36 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite verbose="1" name="Amazon Web tests" parallel="methods">
+
+    <test name="Check menu functionality">
+        <classes>
+            <class name="com.solvd.demo.project.MenuTest">
+                <methods>
+                    <exclude name="subMenuAndroidTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check searching product and sorting functionality">
+        <classes>
+            <class name="com.solvd.demo.project.SearchProductTest"/>
+        </classes>
+    </test>
+
+    <test name="Check filter products functionality">
+        <classes>
+            <class name="com.solvd.demo.project.FilterProductsTest">
+                <methods>
+                    <exclude name="filterPriceAndroidTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check cart functionality">
+        <classes>
+            <class name="com.solvd.demo.project.CartTest"/>
+        </classes>
+    </test>
+
+</suite>
