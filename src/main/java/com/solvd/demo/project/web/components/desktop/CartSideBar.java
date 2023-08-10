@@ -21,9 +21,7 @@ public class CartSideBar extends AbstractUIObject {
     }
 
     public Double getSubtotalAmount() {
-        double price = Double.parseDouble(cartSubTotal.getText().replaceAll("\\$", "").replaceAll(",",""));
-        String result = String.format("%.2f",price);
-        return Double.parseDouble(result);
+        return Double.parseDouble(cartSubTotal.getText().replaceAll("\\$", "").replaceAll(",",""));
     }
 
     public SideBarProduct getFirstSideBarProduct() {

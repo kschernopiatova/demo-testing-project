@@ -12,7 +12,7 @@ public class MenuTest implements IAbstractTest {
     @Test
     public void menuFunctionTest() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open(false);
+        homePage.open();
         Menu menu = homePage.getHeader().getMenu();
         String menuItem = "Electronics";
         menu.openMenuItem(menuItem);
@@ -24,7 +24,7 @@ public class MenuTest implements IAbstractTest {
     @Test
     public void subMenuFunctionTest() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open(false);
+        homePage.open();
         Menu menu = homePage.getHeader().getMenu();
         String menuItem = "Electronics";
         String subMenuItem = "Headphones";
@@ -37,7 +37,7 @@ public class MenuTest implements IAbstractTest {
     @Test
     public void subMenuAndroidTest() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open(false);
+        homePage.open();
         Menu menu = homePage.getHeader().getMenu();
         String menuItem = "Electronics";
         String subMenuItem = "TV & Video";

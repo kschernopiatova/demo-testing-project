@@ -18,8 +18,8 @@ public class ProductPage extends ProductPageBase {
     @FindBy(xpath = "//div[@id='corePriceDisplay_mobile_feature_div']//span[contains(@class,'priceToPay')]//span[@class='a-price-fraction']")
     private ExtendedWebElement priceFraction;
 
-    @FindBy(xpath = "//div[@id='productTitleExpanderRow']//a[@id='acrCustomerReviewLink']//i/span")
-    private ExtendedWebElement productRating;
+    @FindBy(xpath = "//div[@id='corePrice_feature_div']//span[contains(@class,'a-size-base')]")
+    protected ExtendedWebElement productPrice;
 
     @FindBy(xpath = "//div[@id='productTitleExpanderRow']//a[@id='acrCustomerReviewLink']/span[1]")
     private ExtendedWebElement anotherRating;
@@ -48,21 +48,19 @@ public class ProductPage extends ProductPageBase {
     @Override
     public Double getProductPrice() {
         String price = "";
-        try {
+        if (priceWhole.isPresent() && priceFraction.isPresent()) {
             price = priceWhole.getText() + "." + priceFraction.getText();
-        } catch (Exception e) {
-            price = productPrice.getAttribute("innerText").replaceAll("\\$", "").replaceAll(",","");
+        } else {
+            price = productPrice.getText()
+                    .replaceAll("\\$", "")
+                    .replaceAll(",","");
         }
         return Double.parseDouble(price);
     }
 
     @Override
     public Double getProductRating() {
-        try {
-            return Double.parseDouble(productRating.getText().split(" out of")[0]);
-        } catch (Exception e) {
-            return Double.parseDouble(anotherRating.getText().trim());
-        }
+        return Double.parseDouble(anotherRating.getText().trim());
     }
 
     @Override

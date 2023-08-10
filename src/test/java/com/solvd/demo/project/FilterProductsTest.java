@@ -10,14 +10,18 @@ import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class FilterProductsTest implements IAbstractTest {
+
+    private static final String ZIP_CODE = "10003";
 
     @Test
     public void filterRatingTest() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         FilterMenu filterMenu = searchResultsPage.getFilterMenu();
         int ratingBound = 4;
@@ -34,6 +38,7 @@ public class FilterProductsTest implements IAbstractTest {
         SoftAssert softAssert = new SoftAssert();
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         FilterMenu filterMenu = searchResultsPage.getFilterMenu();
         double lowPrice = 20.0;
@@ -41,6 +46,7 @@ public class FilterProductsTest implements IAbstractTest {
         filterMenu.setPriceLimits(lowPrice, highPrice);
         List<Double> prices = searchResultsPage.getFoundProducts().stream()
                 .map(ProductCard::getPrice)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         prices.forEach(price -> softAssert.assertTrue(price >= lowPrice,
                 "The price is lower of the low bound!"));
@@ -53,6 +59,7 @@ public class FilterProductsTest implements IAbstractTest {
     public void filterPriceAndroidTest() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         FilterMenu filterMenu = searchResultsPage.getFilterMenu();
         double lowPrice = 20.0;

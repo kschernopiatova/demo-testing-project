@@ -16,10 +16,13 @@ import java.util.stream.Collectors;
 
 public class SearchProductTest implements IAbstractTest {
 
+    private static final String ZIP_CODE = "10003";
+
     @Test
     public void sortPriceTest() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         searchResultsPage.chooseSortingOption(SortingOption.PRICE_DESC);
         List<Double> prices = searchResultsPage.getFoundProducts().stream()
@@ -36,6 +39,7 @@ public class SearchProductTest implements IAbstractTest {
         SoftAssert softAssert = new SoftAssert();
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductCard product = searchResultsPage.getRandomProductCard();
         String expectedTitle = product.getProductTitle();

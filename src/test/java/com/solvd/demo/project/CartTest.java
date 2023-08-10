@@ -12,10 +12,13 @@ import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
 
 public class CartTest implements IAbstractTest {
 
+    private static final String ZIP_CODE = "10003";
+
     @Test
     public void addProductToCart() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         productPage.addProductToCart();
@@ -27,6 +30,7 @@ public class CartTest implements IAbstractTest {
         SoftAssert softAssert = new SoftAssert();
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         productPage.chooseRandomQuantity();
@@ -36,9 +40,10 @@ public class CartTest implements IAbstractTest {
         Assert.assertTrue(productPage.isCartSidebarPresent(), "Sidebar isn't present!");
         CartSideBar cartSideBar = productPage.getCartSideBar();
         SideBarProduct addedProduct = cartSideBar.getFirstSideBarProduct();
+        double expectedAmount = (double) Math.round(productPrice * expectedQuantity * 100) / 100;
         softAssert.assertEquals(expectedQuantity, addedProduct.getProductQuantity(),
                 "The quantity doesn't match the expected!");
-        softAssert.assertEquals(cartSideBar.getSubtotalAmount(), productPrice * expectedQuantity,
+        softAssert.assertEquals(cartSideBar.getSubtotalAmount(), expectedAmount,
                 "The price doesn't match the expected!");
         softAssert.assertAll();
     }
@@ -47,6 +52,7 @@ public class CartTest implements IAbstractTest {
     public void addDifferentProductsToCart() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         Double firstPrice = productPage.getProductPrice();
@@ -57,9 +63,10 @@ public class CartTest implements IAbstractTest {
         Double secondPrice = productPage.getProductPrice();
         productPage.addProductToCart();
 
+        double expectedAmount = (double) Math.round((firstPrice + secondPrice) * 100) / 100;
         Assert.assertTrue(productPage.isCartSidebarPresent(), "Sidebar isn't present!");
         CartSideBar cartSideBar = productPage.getCartSideBar();
-            Assert.assertEquals(cartSideBar.getSubtotalAmount(), firstPrice + secondPrice,
+            Assert.assertEquals(cartSideBar.getSubtotalAmount(), expectedAmount,
                 "The price doesn't match the expected!");
     }
 
@@ -67,6 +74,7 @@ public class CartTest implements IAbstractTest {
     public void addAndDeleteProduct() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         productPage.addProductToCart();

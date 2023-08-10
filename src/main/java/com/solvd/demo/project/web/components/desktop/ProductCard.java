@@ -35,12 +35,13 @@ public class ProductCard extends AbstractUIObject implements ICustomTypePageFact
     }
 
     public Double getPrice() {
-        try {
+        if (productPrice.isPresent()) {
             return Double.parseDouble(productPrice.getText()
-                    .replaceAll("\\$", "").replaceAll("\n", "."));
-        } catch (Exception e) {
-            return null;
+                    .replaceAll("\\$", "")
+                    .replaceAll("\n", ".")
+                    .replaceAll(",", ""));
         }
+        return null;
     }
 
     public double getRating() {

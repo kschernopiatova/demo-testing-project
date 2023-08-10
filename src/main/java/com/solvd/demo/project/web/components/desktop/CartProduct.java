@@ -22,7 +22,6 @@ public class CartProduct extends AbstractUIObject {
         deleteButton.click();
     }
 
-
     public Integer getProductQuantity() {
         if (!productQuantity.getText().equals(""))
             return Integer.parseInt(productQuantity.getText());

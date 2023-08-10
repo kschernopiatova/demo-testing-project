@@ -60,17 +60,17 @@ public class AndroidFilterMenu extends FilterMenu {
     }
 
     public void chooseSortingOption(SortingOption sortingOption) {
+        IMobileUtils mobileUtils = new AndroidService();
         ExtendedWebElement sorted = sortingOptions.stream()
                 .filter(option -> sortingOption.getTitle().equals(option.getText()))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Not possible to chose this sorting option!"));
-        try {
-            sorted.click();
-        } catch (Exception e) {
-            IMobileUtils mobileUtils = new AndroidService();
-            mobileUtils.swipeUp(2, 5);
-            sorted.click();
+        int elementHeight = sorted.getSize().getHeight();
+        int windowHeight = getDriver().manage().window().getSize().height;
+        while (sorted.getLocation().getY() + elementHeight > windowHeight) {
+            mobileUtils.swipeUp(2, 15);
         }
+        sorted.click();
         applyFilterButton.click();
     }
 
@@ -81,7 +81,11 @@ public class AndroidFilterMenu extends FilterMenu {
                 .filter(element -> element.getAttribute("aria-label").contains(starsBound.toString()))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Unable to choose this rating option!"));
-        mobileUtils.swipeUp(25, 10);
+        int elementHeight = ratingOption.getSize().getHeight();
+        int windowHeight = getDriver().manage().window().getSize().height;
+        while (ratingOption.getLocation().getY() + elementHeight > windowHeight) {
+            mobileUtils.swipeUp(2, 15);
+        }
         mobileUtils.tap(ratingOption);
         applyFilterButton.click();
     }

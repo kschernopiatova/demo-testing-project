@@ -12,10 +12,13 @@ import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
 
 public class AndroidCartTest implements IAbstractTest {
 
+    private static final String ZIP_CODE = "10003";
+
     @Test
     public void addProductToCart() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         productPage.addProductToCart();
@@ -27,6 +30,7 @@ public class AndroidCartTest implements IAbstractTest {
         SoftAssert softAssert = new SoftAssert();
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         productPage.chooseRandomQuantity();
@@ -35,9 +39,10 @@ public class AndroidCartTest implements IAbstractTest {
         productPage.addProductToCart();
         CartPageBase cartPage = homePage.getHeader().openCart();
         CartProduct addedProduct = cartPage.getFirstCartProduct();
+        double expectedAmount = (double) Math.round(productPrice * expectedQuantity * 100) / 100;
         softAssert.assertEquals(addedProduct.getProductQuantity(), expectedQuantity,
                 "The quantity doesn't match the expected!");
-        softAssert.assertEquals(cartPage.getSubtotalAmount(), productPrice * expectedQuantity,
+        softAssert.assertEquals(cartPage.getSubtotalAmount(), expectedAmount,
                 "The price doesn't match the expected!");
         softAssert.assertAll();
     }
@@ -46,6 +51,7 @@ public class AndroidCartTest implements IAbstractTest {
     public void addDifferentProductsToCart() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         Double firstPrice = productPage.getProductPrice();
@@ -56,8 +62,9 @@ public class AndroidCartTest implements IAbstractTest {
         Double secondPrice = productPage.getProductPrice();
         productPage.addProductToCart();
 
+        double expectedAmount = (double) Math.round((firstPrice + secondPrice) * 100) / 100;
         CartPageBase cartPage = homePage.getHeader().openCart();
-        Assert.assertEquals(cartPage.getSubtotalAmount(), firstPrice + secondPrice,
+        Assert.assertEquals(cartPage.getSubtotalAmount(), expectedAmount,
                 "The price doesn't match the expected!");
     }
 
@@ -65,6 +72,7 @@ public class AndroidCartTest implements IAbstractTest {
     public void addAndDeleteProduct() {
         HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
+        homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
         ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
         productPage.addProductToCart();

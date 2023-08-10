@@ -20,17 +20,4 @@ public class HomePage extends HomePageBase {
     public AndroidHeader getHeader() {
         return header;
     }
-
-    @Override
-    public void open() {
-        super.open();
-        header.chooseUSLocation("10003");
-    }
-
-    @Override
-    public void open(boolean changeLoc) {
-        super.open();
-        if (changeLoc)
-            header.chooseUSLocation("10003");
-    }
 }

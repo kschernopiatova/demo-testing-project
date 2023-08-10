@@ -10,16 +10,4 @@ public class HomePage extends HomePageBase {
     public HomePage(WebDriver driver) {
         super(driver);
     }
-
-    @Override
-    public void open() {
-        super.open();
-        header.chooseUSLocation("10003");
-    }
-
-    public void open(boolean changeLoc) {
-        super.open();
-        if (changeLoc)
-            header.chooseUSLocation("10003");
-    }
 }
