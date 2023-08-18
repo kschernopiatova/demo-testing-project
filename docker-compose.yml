@@ -1,0 +1,39 @@
+version: "3"
+services:
+  hub:
+    image: seleniarm/hub:4.1.2-20220227
+    ports:
+      - "4444:4444"
+      - "4443:4443"
+      - "4442:4442"
+  chrome:
+    image: seleniarm/node-chromium:4.1.2-20220227
+    shm_size: '2g'
+    depends_on:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  firefox:
+    image: seleniarm/node-firefox:4.1.2-20220227
+    shm_size: '2g'
+    depends_on:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  chrome-recording:
+    image: selenium/video:ffmpeg-4.3.1-20230607
+    depends_on:
+      - chrome
+    environment:
+      - DISPLAY_CONTAINER_NAME=chrome
+  my_project:
+    image: kchernopiatova/amazon-project
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - MODULE=web.xml
