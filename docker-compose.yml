@@ -9,19 +9,13 @@ services:
       - "$PWD/config:/etc/selenoid/"
       - "$PWD/video:/opt/selenoid/video"
       - "/var/run/docker.sock:/var/run/docker.sock"
-  selenoid-ui:
-    image: "aerokube/selenoid-ui"
-    network_mode: bridge
-    links:
-      - selenoid
-    ports:
-      - "8000:8080"
-    command: ["--selenoid-uri", "http://selenoid:4444"]
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/Users/kchernopiatova/Documents/GitHub/demo-testing-project/video
   my_project:
     build: .
-    links:
-      - selenoid
     depends_on:
       - selenoid
     environment:
       - MODULE=web.xml
+    volumes:
+      - "$PWD/docker/reports:/reports"
