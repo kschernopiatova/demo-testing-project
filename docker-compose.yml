@@ -10,7 +10,7 @@ services:
       - "$PWD/video:/opt/selenoid/video"
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=/Users/kchernopiatova/Documents/GitHub/demo-testing-project/video
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/Users/kchernopiatova/jenkins/workspace/selenoid/video
   my_project:
     build: .
     depends_on:
