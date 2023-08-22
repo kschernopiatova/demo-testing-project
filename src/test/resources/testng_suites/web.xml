@@ -11,26 +11,26 @@
         </classes>
     </test>
 
-<!--    <test name="Check searching product and sorting functionality">-->
-<!--        <classes>-->
-<!--            <class name="com.solvd.demo.project.SearchProductTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Check searching product and sorting functionality">
+        <classes>
+            <class name="com.solvd.demo.project.SearchProductTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Check filter products functionality">-->
-<!--        <classes>-->
-<!--            <class name="com.solvd.demo.project.FilterProductsTest">-->
-<!--                <methods>-->
-<!--                    <exclude name="filterPriceAndroidTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Check filter products functionality">
+        <classes>
+            <class name="com.solvd.demo.project.FilterProductsTest">
+                <methods>
+                    <exclude name="filterPriceAndroidTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
-<!--    <test name="Check cart functionality">-->
-<!--        <classes>-->
-<!--            <class name="com.solvd.demo.project.CartTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Check cart functionality">
+        <classes>
+            <class name="com.solvd.demo.project.CartTest"/>
+        </classes>
+    </test>
 
 </suite>

@@ -18,4 +18,4 @@ services:
     environment:
       - MODULE=web.xml
     volumes:
-      - "$PWD/docker/reports:/reports"
+      - "$PWD/reports:/reports"
