@@ -1,10 +1,10 @@
-FROM openjdk:11.0.14-jre-slim-buster
+FROM maven:3.6.3-jdk-11
 
-ADD target/amazon-project.jar amazon-project.jar
-ADD target/amazon-project-tests.jar amazon-project-tests.jar
-ADD target/libs libs
-ADD target/classes /classes
+ADD src src
+ADD pom.xml .
+
+RUN mvn clean package -DskipTests
 
 ADD /src/test/resources/testng_suites/web.xml web.xml
 
-ENTRYPOINT java -cp "amazon-project.jar:amazon-project-tests.jar:libs/*:/classes/com/solvd/demo/project/web/pages/desktop" org.testng.TestNG $MODULE
+ENTRYPOINT java -cp "target/amazon-project.jar:target/amazon-project-tests.jar:target/libs/*:target/classes/com/solvd/demo/project/web/pages/desktop" org.testng.TestNG $MODULE
