@@ -1,0 +1,21 @@
+version: '3'
+services:
+  selenoid:
+    image: "aerokube/selenoid"
+    network_mode: bridge
+    ports:
+      - "4444:4444"
+    volumes:
+      - "$PWD/config:/etc/selenoid/"
+      - "$PWD/video:/opt/selenoid/video"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/Users/kchernopiatova/jenkins/workspace/selenoid/video
+  my_project:
+    build: .
+    depends_on:
+      - selenoid
+    environment:
+      - MODULE=web.xml
+    volumes:
+      - "$PWD/reports:/reports"
