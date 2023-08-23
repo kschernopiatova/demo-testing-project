@@ -15,5 +15,7 @@ services:
     build: .
     depends_on:
       - selenoid
+    environment:
+      - MODULE=$MODULE
     volumes:
       - "$PWD/reports:/reports"
