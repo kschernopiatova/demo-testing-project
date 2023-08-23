@@ -16,6 +16,7 @@ services:
     depends_on:
       - selenoid
     environment:
-      - MODULE=$MODULE
+      - MODULE=web.xml
+      - URL=$URL
     volumes:
       - "$PWD/reports:/reports"
