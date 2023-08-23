@@ -17,6 +17,5 @@ services:
       - selenoid
     environment:
       - MODULE=web.xml
-      - URL=$URL
     volumes:
       - "$PWD/reports:/reports"
