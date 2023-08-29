@@ -15,6 +15,8 @@
         <testng.version>7.8.0</testng.version>
         <log4g.version>2.20.0</log4g.version>
         <surefire.version>3.1.0</surefire.version>
+        <zebrunner-agent.version>1.9.3</zebrunner-agent.version>
+        <suite>web</suite>
     </properties>
 
     <dependencies>
@@ -28,6 +30,16 @@
             <groupId>com.zebrunner</groupId>
             <artifactId>carina-core</artifactId>
             <version>1.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
     </dependencies>
 
@@ -53,12 +65,21 @@
                         <id>copy-dependencies</id>
                         <phase>prepare-package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>copy</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>
                                 ${project.build.directory}/libs
                             </outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.zebrunner</groupId>
+                                    <artifactId>agent-core</artifactId>
+                                    <version>${zebrunner-agent.version}</version>
+                                    <outputDirectory>${project.build.directory}/agent</outputDirectory>
+                                    <destFileName>zebrunner-agent.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
@@ -81,7 +102,7 @@
                 <version>${surefire.version}</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng_suites/web.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testng_suites/${suite}.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
