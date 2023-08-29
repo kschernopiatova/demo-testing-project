@@ -35,12 +35,4 @@ public class HomePage extends HomePageBase {
     public IosHeader getHeader() {
         return header;
     }
-
-    @Override
-    public void chooseCountry() {
-        chooseCountryLink.click();
-        chooseCountrySelector.click();
-        canadaOption.click();
-        goWebsiteButton.click();
-    }
 }
