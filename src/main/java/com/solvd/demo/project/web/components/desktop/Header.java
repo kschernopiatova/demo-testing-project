@@ -45,7 +45,7 @@ public class Header extends AbstractUIObject implements ICustomTypePageFactory {
     private ExtendedWebElement cartButton;
 
     @FindBy(id = "nav-hamburger-menu")
-    private ExtendedWebElement navHamburger;
+    protected ExtendedWebElement navHamburger;
 
     @FindBy(id = "hmenu-customer-profile")
     private ExtendedWebElement signInField;

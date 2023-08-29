@@ -1,11 +1,11 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite verbose="1" name="Amazon Web tests" parallel="methods" thread-count="2">
+<suite verbose="1" name="Amazon Web tests" parallel="methods">
 
     <test name="Check menu functionality">
         <classes>
             <class name="com.solvd.demo.project.MenuTest">
                 <methods>
-                    <exclude name="subMenuAndroidTest"/>
+                    <exclude name="subMenuMobileTest"/>
                 </methods>
             </class>
         </classes>
