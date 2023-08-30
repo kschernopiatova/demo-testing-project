@@ -49,7 +49,7 @@ public class ProductCard extends AbstractUIObject implements ICustomTypePageFact
     }
 
     public ProductPageBase openProductPage() {
-        productPrice.click();
+        productTitle.click();
         return initPage(getDriver(), ProductPageBase.class);
     }
 }

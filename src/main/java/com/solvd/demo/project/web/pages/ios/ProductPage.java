@@ -30,6 +30,9 @@ public class ProductPage extends ProductPageBase {
     @FindBy(xpath = "//span[text()='DONE']")
     private ExtendedWebElement doneButton;
 
+    @FindBy(id = "nav-logo-sprites")
+    private ExtendedWebElement logo;
+
     public ProductPage(WebDriver driver) {
         super(driver);
     }
@@ -62,5 +65,10 @@ public class ProductPage extends ProductPageBase {
     @Override
     public boolean isCartSidebarPresent() {
         return cartPopup.isPresent() || addedSuccessfullyTitle.isPresent();
+    }
+
+    @Override
+    public void clickLogoButton() {
+        logo.click();
     }
 }

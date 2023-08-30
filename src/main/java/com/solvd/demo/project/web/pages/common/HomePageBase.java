@@ -1,5 +1,6 @@
 package com.solvd.demo.project.web.pages.common;
 
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -9,6 +10,9 @@ public abstract class HomePageBase extends AbstractPage {
 
     @FindBy(id = "navbar")
     protected Header header;
+
+    @FindBy(xpath = "//span[contains(text(),'Browsing History')]")
+    private ExtendedWebElement browsingHistoryLink;
 
     public HomePageBase(WebDriver driver) {
         super(driver);
@@ -25,5 +29,11 @@ public abstract class HomePageBase extends AbstractPage {
 
     public Header getHeader() {
         return header;
+    }
+
+    public BrowsingHistoryPageBase openBrowsingHistory() {
+        browsingHistoryLink.click();
+        browsingHistoryLink.clickIfPresent();
+        return initPage(getDriver(), BrowsingHistoryPageBase.class);
     }
 }

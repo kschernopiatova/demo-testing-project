@@ -47,6 +47,10 @@ public class SearchResultsPageBase extends AbstractPage {
     }
 
     public ProductCard getRandomProductCard() {
+        return foundProducts.get(new Random().nextInt(foundProducts.size()));
+    }
+
+    public ProductCard getFullProductCard() {
         List<ProductCard> allInfo =  foundProducts.stream()
                 .filter(ProductCard::isAllInfoPresent)
                 .collect(Collectors.toList());

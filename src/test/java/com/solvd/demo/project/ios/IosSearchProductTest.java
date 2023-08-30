@@ -2,6 +2,7 @@ package com.solvd.demo.project.ios;
 
 import com.solvd.demo.project.enums.SortingOption;
 import com.solvd.demo.project.web.components.desktop.ProductCard;
+import com.solvd.demo.project.web.pages.common.HomePageBase;
 import com.solvd.demo.project.web.pages.common.ProductPageBase;
 import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
 import com.zebrunner.carina.core.IAbstractTest;
@@ -30,11 +31,24 @@ public class IosSearchProductTest implements IAbstractTest {
     }
 
     @Test
+    public void sortRatingIosTest() {
+        SearchResultsPageBase searchResultsPage = initPage(getDriver(), SearchResultsPageBase.class);
+        searchResultsPage.open();
+        searchResultsPage.chooseSortingOption(SortingOption.RATING);
+        List<Double> ratings = searchResultsPage.getFoundProducts().stream()
+                .map(ProductCard::getRating)
+                .collect(Collectors.toList());
+        for (int i = 0; i < ratings.size() - 1; i++) {
+            Assert.assertTrue(ratings.get(i) >= ratings.get(i+1), "The rating isn't sorted descending!");
+        }
+    }
+
+    @Test
     public void openProductCardIOSTest() {
         SoftAssert softAssert = new SoftAssert();
         SearchResultsPageBase searchResultsPage = initPage(getDriver(), SearchResultsPageBase.class);
         searchResultsPage.open();
-        ProductCard product = searchResultsPage.getRandomProductCard();
+        ProductCard product = searchResultsPage.getFullProductCard();
         String expectedTitle = product.getProductTitle();
         Double expectedPrice = product.getPrice();
         Double expectedRating = product.getRating();
@@ -46,5 +60,16 @@ public class IosSearchProductTest implements IAbstractTest {
         softAssert.assertEquals(expectedRating, productPage.getProductRating(),
                 "The rating isn't as expected!");
         softAssert.assertAll();
+    }
+
+    @Test
+    public void productLogoIosTest() {
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+        SearchResultsPageBase searchResultsPage = initPage(getDriver(), SearchResultsPageBase.class);
+        searchResultsPage.open();
+        ProductCard product = searchResultsPage.getRandomProductCard();
+        ProductPageBase productPage = product.openProductPage();
+        productPage.clickLogoButton();
+        Assert.assertTrue(homePage.isPageOpened(), "Home Page isn't opened!");
     }
 }
