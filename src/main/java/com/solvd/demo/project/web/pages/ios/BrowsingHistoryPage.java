@@ -55,7 +55,8 @@ public class BrowsingHistoryPage extends BrowsingHistoryPageBase {
 
     @Override
     public Integer getNumberOfViewedProducts() {
-        waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(viewedProducts.get(0).getBy()), 5);
-        return viewedProducts.size();
+        if (!viewedProducts.isEmpty())
+            return viewedProducts.size();
+        else return 0;
     }
 }

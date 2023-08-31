@@ -36,4 +36,9 @@ public abstract class HomePageBase extends AbstractPage {
         browsingHistoryLink.clickIfPresent();
         return initPage(getDriver(), BrowsingHistoryPageBase.class);
     }
+
+    @Override
+    public boolean isPageOpened() {
+        return browsingHistoryLink.isPresent();
+    }
 }
