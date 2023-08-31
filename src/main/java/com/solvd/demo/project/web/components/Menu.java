@@ -19,10 +19,10 @@ public class Menu extends AbstractUIObject implements ICustomTypePageFactory {
     private List<ExtendedWebElement> mainMenuItems;
 
     @FindBy(xpath = ".//ul[@data-menu-id!='1' and contains(@class,'hmenu-visible')]//a")
-    private List<ExtendedWebElement> subMenuItems;
+    protected List<ExtendedWebElement> subMenuItems;
 
     @FindBy(xpath = ".//ul[contains(@class,'hmenu-visible')]//div[text()='main menu']/..")
-    private ExtendedWebElement backToMenuButton;
+    protected ExtendedWebElement backToMenuButton;
 
     @FindBy(xpath = "//div[text()='see all']")
     private List<ExtendedWebElement> seeAllButtons;

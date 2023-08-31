@@ -21,7 +21,7 @@ public class AndroidHeader extends Header {
     @FindBy(id = "nav-search-keywords")
     private ExtendedWebElement searchField;
 
-    @FindBy(xpath = ".//div[@class='nav-search-submit']")
+    @FindBy(xpath = ".//input[@class='nav-input']")
     private ExtendedWebElement searchButton;
 
     @FindBy(id = "cart-size")
@@ -46,7 +46,10 @@ public class AndroidHeader extends Header {
     public SearchResultsPageBase openRandomSuggestedGoods() {
         searchField.type(SearchOptions.getRandomSearch());
         searchButton.click();
-        return initPage(getDriver(), SearchResultsPageBase.class);
+        SearchResultsPageBase searchResultsPage = initPage(getDriver(), SearchResultsPageBase.class);
+        if (searchResultsPage.getFoundProducts().size() == 0)
+            searchButton.click();
+        return searchResultsPage;
     }
 
     @Override

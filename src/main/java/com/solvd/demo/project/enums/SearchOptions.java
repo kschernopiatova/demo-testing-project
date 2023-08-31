@@ -5,7 +5,6 @@ import java.util.Random;
 public enum SearchOptions {
 
     PENCIL_POUCH("pencil pouch"),
-    PAPER_TOWEL("paper towel"),
     HEADPHONES("headphones"),
     PENCIL_CASE("pencil case"),
     COMPOSITION_NOTEBOOK("composition notebook");

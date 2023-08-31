@@ -50,6 +50,7 @@ public class ProductPageBase extends AbstractPage {
 
     public ProductPageBase(WebDriver driver) {
         super(driver);
+        waitUntil(ExpectedConditions.visibilityOf(productTitle.getElement()), 5);
     }
 
     public String getProductTitle() {
@@ -99,5 +100,9 @@ public class ProductPageBase extends AbstractPage {
 
     public CartSideBar getCartSideBar() {
         return cartSideBar;
+    }
+
+    public void clickLogoButton() {
+        throw new RuntimeException("Method isn't implemented for this platform");
     }
 }

@@ -41,7 +41,7 @@ public class SearchProductTest implements IAbstractTest {
         homePage.open();
         homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
-        ProductCard product = searchResultsPage.getRandomProductCard();
+        ProductCard product = searchResultsPage.getFullProductCard();
         String expectedTitle = product.getProductTitle();
         Double expectedPrice = product.getPrice();
         Double expectedRating = product.getRating();

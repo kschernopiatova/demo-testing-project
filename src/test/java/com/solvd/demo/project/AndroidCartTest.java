@@ -20,7 +20,7 @@ public class AndroidCartTest implements IAbstractTest {
         homePage.open();
         homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
-        ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
+        ProductPageBase productPage = searchResultsPage.getFullProductCard().openProductPage();
         productPage.addProductToCart();
         Assert.assertTrue(productPage.isCartSidebarPresent(), "Sidebar isn't present!");
     }
@@ -32,7 +32,7 @@ public class AndroidCartTest implements IAbstractTest {
         homePage.open();
         homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
-        ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
+        ProductPageBase productPage = searchResultsPage.getFullProductCard().openProductPage();
         productPage.chooseRandomQuantity();
         Integer expectedQuantity = productPage.getChosenQuantity();
         Double productPrice = productPage.getProductPrice();
@@ -53,12 +53,12 @@ public class AndroidCartTest implements IAbstractTest {
         homePage.open();
         homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
-        ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
+        ProductPageBase productPage = searchResultsPage.getFullProductCard().openProductPage();
         Double firstPrice = productPage.getProductPrice();
         productPage.addProductToCart();
 
         homePage.getHeader().openRandomSuggestedGoods();
-        productPage = searchResultsPage.getRandomProductCard().openProductPage();
+        productPage = searchResultsPage.getFullProductCard().openProductPage();
         Double secondPrice = productPage.getProductPrice();
         productPage.addProductToCart();
 
@@ -74,7 +74,7 @@ public class AndroidCartTest implements IAbstractTest {
         homePage.open();
         homePage.getHeader().chooseUSLocation(ZIP_CODE);
         SearchResultsPageBase searchResultsPage = homePage.getHeader().openRandomSuggestedGoods();
-        ProductPageBase productPage = searchResultsPage.getRandomProductCard().openProductPage();
+        ProductPageBase productPage = searchResultsPage.getFullProductCard().openProductPage();
         productPage.addProductToCart();
 
         CartPageBase cartPage = homePage.getHeader().openCart();
