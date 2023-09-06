@@ -5,9 +5,9 @@ import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import com.zebrunner.carina.core.IAbstractTest;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class APITest implements IAbstractTest {
 
@@ -44,16 +44,40 @@ public class APITest implements IAbstractTest {
 
     @Test
     public void putBookingTest() {
-        PutBooking api = new PutBooking(getRandomBookingId(), getToken());
+        SoftAssert softAssert = new SoftAssert();
+        String randomBookingId = getRandomBookingId();
+        PutBooking api = new PutBooking(randomBookingId, getToken());
         api.callAPIExpectSuccess();
         api.validateResponse();
+        Properties properties = api.getProperties();
+
+        Response response = new GetBooking(randomBookingId).callAPIExpectSuccess();
+        Set<Object> propertyNames = properties.keySet();
+        for (Object propertyName : propertyNames) {
+            String name = (String) propertyName;
+            String changedProperty = response.getBody().jsonPath().getString(name);
+            if (changedProperty == null)
+                changedProperty = response.getBody().jsonPath().getString("bookingdates." + name);
+            softAssert.assertEquals(changedProperty, properties.get(name), "The property value isn't changed!");
+        }
+        softAssert.assertAll();
     }
 
     @Test
     public void patchBookingTest() {
-        PatchBooking api = new PatchBooking(getRandomBookingId(), getToken());
+        SoftAssert softAssert = new SoftAssert();
+        String randomBookingId = getRandomBookingId();
+        PatchBooking api = new PatchBooking(randomBookingId, getToken());
         api.callAPIExpectSuccess();
         api.validateResponse();
+
+        GetBooking getBooking = new GetBooking(randomBookingId);
+        Response response = getBooking.callAPIExpectSuccess();
+        String firstName = response.getBody().jsonPath().getString("firstname");
+        String lastName = response.getBody().jsonPath().getString("lastname");
+        softAssert.assertEquals(firstName, api.getProperties().get("firstName"), "The first name isn't changed!");
+        softAssert.assertEquals(lastName, api.getProperties().get("lastName"), "The last name isn't changed!");
+        softAssert.assertAll();
     }
 
     @Test
