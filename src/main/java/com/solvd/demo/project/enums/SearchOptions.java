@@ -4,10 +4,10 @@ import java.util.Random;
 
 public enum SearchOptions {
 
-    FOOTWEAR("men footwear"),
+    PENCIL_POUCH("pencil pouch"),
     HEADPHONES("headphones"),
     PENCIL_CASE("pencil case"),
-    HOME("home");
+    FOOTWEAR("men footwear");
 
     private String search;
 
