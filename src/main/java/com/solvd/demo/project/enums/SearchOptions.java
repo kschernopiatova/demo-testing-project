@@ -7,7 +7,7 @@ public enum SearchOptions {
     PENCIL_POUCH("pencil pouch"),
     HEADPHONES("headphones"),
     PENCIL_CASE("pencil case"),
-    COMPOSITION_NOTEBOOK("composition notebook");
+    FOOTWEAR("men footwear");
 
     private String search;
 
