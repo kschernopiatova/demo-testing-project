@@ -1,6 +1,8 @@
 package com.solvd.demo.project;
 
 import com.solvd.demo.project.api.*;
+import com.zebrunner.carina.api.AbstractApiMethodV2;
+import com.zebrunner.carina.api.binding.TemplateFactory;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import com.zebrunner.carina.core.IAbstractTest;
 import io.restassured.response.Response;
@@ -13,45 +15,52 @@ public class APITest implements IAbstractTest {
 
     @Test
     public void createTokenTest() {
-        PostCreateToken api = new PostCreateToken();
+        TokenTemplate tokenTemplate = TemplateFactory.prepareTemplate(TokenTemplate.class);
+        AbstractApiMethodV2 api = tokenTemplate.create();
         api.callAPIExpectSuccess();
         api.validateResponse();
     }
 
     @Test
     public void getBookingsTest() {
-        GetBookings api = new GetBookings();
+        BookingTemplate bookingTemplate = TemplateFactory.prepareTemplate(BookingTemplate.class);
+        AbstractApiMethodV2 api = bookingTemplate.getAll();
         api.callAPIExpectSuccess();
         api.validateResponseAgainstSchema("api/booking/_get/rs.schema");
     }
 
     @Test
     public void getBookingById() {
-        GetBooking newApi = new GetBooking(getRandomBookingId());
-        newApi.callAPIExpectSuccess();
-        newApi.validateResponse();
+        String bookingId = ApiService.getRandomBookingId();
+        BookingTemplate bookingTemplate = TemplateFactory.prepareTemplate(BookingTemplate.class);
+        AbstractApiMethodV2 api = bookingTemplate.getById(bookingId);
+        api.callAPIExpectSuccess();
+        api.validateResponse();
     }
 
     @Test
     public void postBookingTest() {
-        PostBooking postBooking = new PostBooking();
-        Response response = postBooking.callAPIExpectSuccess();
-        postBooking.validateResponse();
+        BookingTemplate bookingTemplate = TemplateFactory.prepareTemplate(BookingTemplate.class);
+        AbstractApiMethodV2 api = bookingTemplate.post();
+        Response response = api.callAPIExpectSuccess();
+        api.validateResponse();
         String bookingId = response.getBody().jsonPath().getString("bookingid");
-        GetBooking getBooking = new GetBooking(bookingId);
+        AbstractApiMethodV2 getBooking = bookingTemplate.getById(bookingId);
         getBooking.callAPIExpectSuccess();
     }
 
     @Test
     public void putBookingTest() {
         SoftAssert softAssert = new SoftAssert();
-        String randomBookingId = getRandomBookingId();
-        PutBooking api = new PutBooking(randomBookingId, getToken());
+        String bookingId = ApiService.getRandomBookingId();
+        BookingTemplate bookingTemplate = TemplateFactory.prepareTemplate(BookingTemplate.class);
+        AbstractApiMethodV2 api = bookingTemplate.putById(bookingId);
+        ApiService.addToken(api);
         api.callAPIExpectSuccess();
         api.validateResponse();
         Properties properties = api.getProperties();
 
-        Response response = new GetBooking(randomBookingId).callAPIExpectSuccess();
+        Response response = bookingTemplate.getById(bookingId).callAPIExpectSuccess();
         Set<Object> propertyNames = properties.keySet();
         for (Object propertyName : propertyNames) {
             String name = (String) propertyName;
@@ -66,13 +75,14 @@ public class APITest implements IAbstractTest {
     @Test
     public void patchBookingTest() {
         SoftAssert softAssert = new SoftAssert();
-        String randomBookingId = getRandomBookingId();
-        PatchBooking api = new PatchBooking(randomBookingId, getToken());
+        String bookingId = ApiService.getRandomBookingId();
+        BookingTemplate bookingTemplate = TemplateFactory.prepareTemplate(BookingTemplate.class);
+        AbstractApiMethodV2 api = bookingTemplate.patchById(bookingId);
+        ApiService.addToken(api);
         api.callAPIExpectSuccess();
         api.validateResponse();
 
-        GetBooking getBooking = new GetBooking(randomBookingId);
-        Response response = getBooking.callAPIExpectSuccess();
+        Response response = bookingTemplate.getById(bookingId).callAPIExpectSuccess();
         String firstName = response.getBody().jsonPath().getString("firstname");
         String lastName = response.getBody().jsonPath().getString("lastname");
         softAssert.assertEquals(firstName, api.getProperties().get("firstName"), "The first name isn't changed!");
@@ -82,24 +92,13 @@ public class APITest implements IAbstractTest {
 
     @Test
     public void deleteBookingTest() {
-        String randomId = getRandomBookingId();
-        DeleteBooking api = new DeleteBooking(randomId, getToken());
+        String bookingId = ApiService.getRandomBookingId();
+        BookingTemplate bookingTemplate = TemplateFactory.prepareTemplate(BookingTemplate.class);
+        AbstractApiMethodV2 api = bookingTemplate.deleteById(bookingId);
+        ApiService.addToken(api);
         api.callAPIExpectSuccess();
-        GetBooking getBooking = new GetBooking(randomId);
+        AbstractApiMethodV2 getBooking = bookingTemplate.getById(bookingId);
         getBooking.callAPI();
         getBooking.expectResponseStatus(HttpResponseStatusType.NOT_FOUND_404);
-    }
-
-    public String getToken() {
-        PostCreateToken api = new PostCreateToken();
-        Response response = api.callAPIExpectSuccess();
-        return response.getBody().jsonPath().getString("token");
-    }
-
-    public String getRandomBookingId() {
-        GetBookings api = new GetBookings();
-        Response response = api.callAPIExpectSuccess();
-        List<Integer> bookingIds = response.getBody().jsonPath().getList("bookingid");
-        return bookingIds.get(new Random().nextInt(bookingIds.size())).toString();
     }
 }
