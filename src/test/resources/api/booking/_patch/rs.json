@@ -1,0 +1,11 @@
+{
+  "firstname" : "${firstName}",
+  "lastname" : "${lastName}",
+  "totalprice" : "skip",
+  "depositpaid" : "skip",
+  "bookingdates" : {
+    "checkin" : "skip",
+    "checkout" : "skip"
+  },
+  "additionalneeds" : "skip"
+}
