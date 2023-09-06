@@ -1,0 +1,74 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite verbose="1" name="Amazon Ios tests" parallel="methods">
+
+    <test name="Check creating token via api">
+        <classes>
+            <class name="com.solvd.demo.project.APITest">
+                <methods>
+                    <include name="createTokenTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check getting all booking ids via api">
+        <classes>
+            <class name="com.solvd.demo.project.APITest">
+                <methods>
+                    <include name="getBookingsTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check getting booking via api">
+        <classes>
+            <class name="com.solvd.demo.project.APITest">
+                <methods>
+                    <include name="getBookingById"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check post booking via api">
+        <classes>
+            <class name="com.solvd.demo.project.APITest">
+                <methods>
+                    <include name="postBookingTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check full booking update via api">
+        <classes>
+            <class name="com.solvd.demo.project.APITest">
+                <methods>
+                    <include name="putBookingTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check partial booking update via api">
+        <classes>
+            <class name="com.solvd.demo.project.APITest">
+                <methods>
+                    <include name="patchBookingTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Check delete booking via api">
+        <classes>
+            <class name="com.solvd.demo.project.APITest">
+                <methods>
+                    <include name="deleteBookingTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
