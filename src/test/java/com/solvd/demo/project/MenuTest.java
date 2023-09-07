@@ -1,18 +1,19 @@
 package com.solvd.demo.project;
 
 import com.nordstrom.automation.testng.LinkedListeners;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.solvd.demo.project.web.components.Menu;
 import com.solvd.demo.project.web.pages.common.HomePageBase;
 import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
 
-@LinkedListeners({ AmazonListener.class, DriverListener.class })
-public class MenuTest extends AbstractTest {
+@LinkedListeners({ AmazonListener.class})
+public class MenuTest implements IAbstractTest {
 
     @Test
     public void menuFunctionTest() {
-        HomePageBase homePage = initPage(driver, HomePageBase.class);
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
         homePage.open();
         Menu menu = homePage.getHeader().getMenu();
         String menuItem = "Electronics";

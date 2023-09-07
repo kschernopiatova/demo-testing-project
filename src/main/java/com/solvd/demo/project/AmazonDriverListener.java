@@ -1,18 +1,20 @@
 package com.solvd.demo.project;
 
-import com.zebrunner.carina.webdriver.IDriverPool;
+import com.zebrunner.carina.webdriver.listener.DriverListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.events.WebDriverListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.ITestListener;
 
 import java.lang.invoke.MethodHandles;
 
-public class DriverListener implements ITestListener, WebDriverListener, IDriverPool {
+public class AmazonDriverListener extends DriverListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    public AmazonDriverListener(WebDriver driver) {
+        super(driver);
+    }
 
     public void afterClick(WebElement element) {
         LOGGER.info("Clicking element " + element.getTagName());
