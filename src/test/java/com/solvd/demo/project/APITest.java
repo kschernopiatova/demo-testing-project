@@ -1,5 +1,6 @@
 package com.solvd.demo.project;
 
+import com.nordstrom.automation.testng.LinkedListeners;
 import com.solvd.demo.project.api.*;
 import com.zebrunner.carina.api.AbstractApiMethodV2;
 import com.zebrunner.carina.api.binding.TemplateFactory;
@@ -11,6 +12,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.*;
 
+@LinkedListeners(AmazonListener.class)
 public class APITest implements IAbstractTest {
 
     @Test

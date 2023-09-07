@@ -21,12 +21,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.zebrunner</groupId>
             <artifactId>carina-core</artifactId>
             <version>1.1.4</version>

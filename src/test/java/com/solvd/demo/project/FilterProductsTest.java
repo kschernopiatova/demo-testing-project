@@ -1,5 +1,6 @@
 package com.solvd.demo.project;
 
+import com.nordstrom.automation.testng.LinkedListeners;
 import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@LinkedListeners(AmazonListener.class)
 public class FilterProductsTest implements IAbstractTest {
 
     private static final String ZIP_CODE = "10003";
