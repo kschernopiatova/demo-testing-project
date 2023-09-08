@@ -1,5 +1,7 @@
 package com.solvd.demo.project.ios;
 
+import com.nordstrom.automation.testng.LinkedListeners;
+import com.solvd.demo.project.AmazonListener;
 import com.solvd.demo.project.web.components.desktop.FilterMenu;
 import com.solvd.demo.project.web.components.desktop.ProductCard;
 import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
@@ -10,6 +12,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@LinkedListeners(AmazonListener.class)
 public class IosFilterProductsTest implements IAbstractTest {
 
     @Test

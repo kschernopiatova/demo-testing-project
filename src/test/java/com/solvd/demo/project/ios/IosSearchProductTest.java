@@ -1,5 +1,7 @@
 package com.solvd.demo.project.ios;
 
+import com.nordstrom.automation.testng.LinkedListeners;
+import com.solvd.demo.project.AmazonListener;
 import com.solvd.demo.project.enums.SortingOption;
 import com.solvd.demo.project.web.components.desktop.ProductCard;
 import com.solvd.demo.project.web.pages.common.HomePageBase;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@LinkedListeners(AmazonListener.class)
 public class IosSearchProductTest implements IAbstractTest {
 
     @Test

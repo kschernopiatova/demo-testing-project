@@ -1,5 +1,6 @@
 package com.solvd.demo.project;
 
+import com.nordstrom.automation.testng.LinkedListeners;
 import com.solvd.demo.project.web.components.desktop.CartProduct;
 import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
@@ -10,6 +11,7 @@ import com.solvd.demo.project.web.pages.common.HomePageBase;
 import com.solvd.demo.project.web.pages.common.ProductPageBase;
 import com.solvd.demo.project.web.pages.common.SearchResultsPageBase;
 
+@LinkedListeners(AmazonListener.class)
 public class AndroidCartTest implements IAbstractTest {
 
     private static final String ZIP_CODE = "10003";
